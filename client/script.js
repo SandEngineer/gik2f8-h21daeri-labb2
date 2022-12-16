@@ -102,9 +102,13 @@ function renderList() {
 }
 
 function renderTask({id, title, description, dueDate}) {
+    /* Something something checkbox -> onclick -> anropa funktion
+    skriv completed=true if checked=true och false if false för (this.id)
+    skicka till backend för write */
     let html = `
         <li class="select-none mt-2 py-2 border-b border-amber-300">
             <div class="flex items-center">
+                <input type="checkbox" name="checkbox" class="mr-2 mb-2 w-5 h-5 hover:border-amber-700 checked:accent-amber-700" />
                 <h3 class="flex-1 mb-3 text-xl font-bold text-pink-800 uppercase">${title}</h3>
                 <div>
                     <span>${dueDate}</span>

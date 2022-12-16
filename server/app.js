@@ -54,6 +54,15 @@ app.post('/tasks', async (req, res) => {
     }
 });
 
+app.patch('/tasks', async (req, res) => {
+    try {
+        
+    }
+    catch (error) {
+        res.status(500).send({error: error.stack});
+    }
+});
+
 app.delete('/tasks/:id', async (req, res) => {
     try {
         const id = req.params.id;

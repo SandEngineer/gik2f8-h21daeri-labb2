@@ -54,9 +54,26 @@ app.post('/tasks', async (req, res) => {
     }
 });
 
-app.patch('/tasks', async (req, res) => {
+app.patch('/tasks/:id', async (req, res) => {
     try {
+        const id = req.params.id;
+        const listBuffer = await fs.readFile("./tasks.json");
+        const currentTasks = JSON.parse(listBuffer);
+
+        currentTasks.forEach(task => {
+            if (task.id == id && task.completed == false) {
+                task.completed = true;
+            } 
+            else if (task.id == id && task.completed == true) {
+                task.completed = false;
+            }
+        });
         
+        await fs.writeFile('./tasks.json',
+            JSON.stringify(currentTasks)
+        );
+        
+        res.send({ message: `Uppgift med id ${id} uppdaterades` });
     }
     catch (error) {
         res.status(500).send({error: error.stack});

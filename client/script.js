@@ -10,6 +10,8 @@ todoForm.dueDate.addEventListener('blur', (e) => validateField(e.target));
 
 todoForm.addEventListener('submit', onSubmit);
 
+window.addEventListener('load', renderList);
+
 const todoListElement = document.getElementById('todoList');
 
 let titleValid = true;
@@ -69,6 +71,7 @@ function onSubmit(e) {
     if (titleValid && descriptionValid && dueDateValid) {
         console.log('Submit');
         saveTask();
+        resetFields();
     }
 }
 
@@ -90,10 +93,18 @@ function saveTask() {
 function renderList() {
     console.log('Rendering');
 
+    /* Stulen exempelkod
+    tasks.sort((first, second) => first.dueDate - second.dueDate); */
+
     api.getAll().then(tasks => {
         todoListElement.innerHTML = '';
         
         if (tasks && tasks.length > 0) {
+            /* Stulen exempelkod
+            tasks.sort(
+                (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+              ); */
+
             tasks.forEach(task => {
                 todoListElement.insertAdjacentHTML('beforeend', renderTask(task));
             });
@@ -101,30 +112,40 @@ function renderList() {
     });
 }
 
-function renderTask({id, title, description, dueDate}) {
-    /* Something something checkbox -> onclick -> anropa funktion
-    skriv completed=true if checked=true och false if false för (this.id)
-    skicka till backend för write */
+/* Stulen exempelkod
+function compareTimes(a, b) {
+    return a.time - b.time;
+} */
+
+function renderTask({id, title, description, dueDate, completed}) {
     let html = `
-        <li class="select-none mt-2 py-2 border-b border-amber-300">
-            <div class="flex items-center">
-                <input type="checkbox" name="checkbox" class="mr-2 mb-2 w-5 h-5 hover:border-amber-700 checked:accent-amber-700" />
-                <h3 class="flex-1 mb-3 text-xl font-bold text-pink-800 uppercase">${title}</h3>
+        <li id="item${id}" class="select-none mt-2 py-2 border-b border-amber-300">
+            <div class="flex items-center">`;
+
+    !completed && (html += `
+            <input type="checkbox" id="${id}" name="checkbox${id}" onclick="completeTask(${id})" value="false" class="mr-2 mb-2 w-5 h-5 hover:border-amber-700 checked:accent-amber-700" />
+            <h3 class="flex-1 mb-3 text-xl font-bold text-pink-800 uppercase">${title}</h3>`);
+    
+    completed && (html += `
+            <input type="checkbox" id="${id}" name="checkbox${id}" onclick="completeTask(${id})" checked value="true" class="mr-2 mb-2 w-5 h-5 hover:border-amber-700 checked:accent-amber-700" />
+            <h3 class="flex-1 mb-3 text-xl font-bold text-pink-800 uppercase line-through decoration-from-font">${title}</h3>`);
+    
+    html += `
                 <div>
                     <span>${dueDate}</span>
                     <button onclick="removeTask(${id})" class="inline-block bg-amber-500 text-xs text-amber-900 border border-white px-3 py-1 rounded-md ml-2">Ta bort</button>
                 </div>
-            </div>`;
-    
-    description && (
-        html += `
+            </div>
             <p class="ml-8 mt-2 text-xs italic">${description}</p>
-    `);
-
-    html += `
         </li>`;
-    
+
     return html;
+}
+
+function completeTask(id) {
+    api.update(id).then((result) => {
+        renderList();
+    });
 }
 
 function removeTask(id) {
@@ -133,4 +154,8 @@ function removeTask(id) {
     });
 }
 
-renderList();
+function resetFields() {
+    todoForm.title.value = "";
+    todoForm.description.value = "";
+    todoForm.dueDate.value = "";
+}

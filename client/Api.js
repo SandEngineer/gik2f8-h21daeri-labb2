@@ -23,6 +23,24 @@ class Api {
             .catch((err) => console.log(err));
     }
 
+    update(id) {
+        const JSONData = JSON.stringify(id);
+        console.log(`Updating task ${id}`) // <- kommer hit, kör troligen fast på backend, kanske pga nedanstående
+
+        const request = new Request(this.url, {
+            method: 'PATCH', 
+            body: JSONData, 
+            headers: {
+                'content-type': 'application/json'
+            }
+        });
+
+        return fetch(request)
+        .then(result => result.json())
+        .then((data) => data)
+        .catch((err) => console.log(err));
+    }
+
     getAll() {
         return fetch(this.url)
             .then(result => result.json())

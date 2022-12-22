@@ -93,17 +93,14 @@ function saveTask() {
 function renderList() {
     console.log('Rendering');
 
-    /* Stulen exempelkod
-    tasks.sort((first, second) => first.dueDate - second.dueDate); */
-
     api.getAll().then(tasks => {
         todoListElement.innerHTML = '';
         
         if (tasks && tasks.length > 0) {
-            /* Stulen exempelkod
+
             tasks.sort(
-                (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
-              ); */
+                (a, b) => new Date(a.dueDate) - new Date(b.dueDate)
+            );
 
             tasks.forEach(task => {
                 todoListElement.insertAdjacentHTML('beforeend', renderTask(task));
@@ -111,11 +108,6 @@ function renderList() {
         }
     });
 }
-
-/* Stulen exempelkod
-function compareTimes(a, b) {
-    return a.time - b.time;
-} */
 
 function renderTask({id, title, description, dueDate, completed}) {
     let html = `

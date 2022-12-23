@@ -15,6 +15,7 @@ app
         next();
     });
 
+/* GET */
 app.get('/tasks', async (req, res) => {
     try {
         const tasks = await fs.readFile('./tasks.json');
@@ -25,6 +26,7 @@ app.get('/tasks', async (req, res) => {
     }
 });
 
+/* POST */
 app.post('/tasks', async (req, res) => {
     try {
         const task = req.body;
@@ -61,7 +63,9 @@ app.patch('/tasks/:id', async (req, res) => {
         const listBuffer = await fs.readFile("./tasks.json");
         const currentTasks = JSON.parse(listBuffer);
         
+        /* Om lista finns */
         if (currentTasks.length > 0) {
+            /* Iterera igenom och hitta rätt id, sätt completed till motsatt värde */
             currentTasks.forEach(task => {
                 if (task.id == id && task.completed == false) {
                     task.completed = true;
@@ -70,6 +74,7 @@ app.patch('/tasks/:id', async (req, res) => {
                     task.completed = false;
                 }
             })
+            /* Skriv till fil */
             await fs.writeFile('./tasks.json',
                 JSON.stringify(currentTasks)
             );
@@ -84,12 +89,13 @@ app.patch('/tasks/:id', async (req, res) => {
     }
 });
 
+/* DELETE */
 app.delete('/tasks/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const listBuffer = await fs.readFile('./tasks.json');
         const currentTasks = JSON.parse(listBuffer);
-
+        /* Skriv till fil alla id som inte matchar input id, dvs delete in reverse */
         if (currentTasks.length > 0) {
             await fs.writeFile('./tasks.json', JSON.stringify(currentTasks.filter((task) => task.id != id)));
             res.send({ message: `Uppgift med id ${id} togs bort` });

@@ -134,6 +134,7 @@ function renderTask({id, title, description, dueDate, completed}) {
     return html;
 }
 
+/* Uppdatera krysslåda */
 function completeTask(id) {
     api.update(id).then((result) => {
         renderList();

@@ -119,25 +119,30 @@ function renderList() {
 /* Rita listitems */
 function renderTask({id, title, description, dueDate, completed}) {
     let html = `
-        <li id="item${id}" class="select-none mt-2 py-2 border-b border-amber-300">
+        <li id="item${id}" class="select-none mt-2 py-2 border-b border-[#986C6A]">
             <div class="flex items-center">`;
-    /* Om uppgiften inte är markerad som klar, skriv ut utan ikryssad låda och utan strikethrough*/
+    /* Om uppgiften INTE är markerad som klar, skriv ut utan ikryssad låda och utan strikethrough*/
     !completed && (html += `
-            <input type="checkbox" id="${id}" name="checkbox${id}" onclick="completeTask(${id})" value="false" class="mr-2 mb-2 w-5 h-5 hover:border-amber-700 checked:accent-amber-700" />
-            <h3 class="flex-1 mb-3 text-xl font-bold text-pink-800 uppercase">${title}</h3>`);
-    /* Om uppgiften är markerad som klar, skriv ut med ikryssad låda och strikethrough*/
-    completed && (html += `
-            <input type="checkbox" id="${id}" name="checkbox${id}" onclick="completeTask(${id})" checked value="true" class="mr-2 mb-2 w-5 h-5 hover:border-amber-700 checked:accent-amber-700" />
-            <h3 class="flex-1 mb-3 text-xl font-bold text-pink-800 uppercase line-through decoration-from-font">${title}</h3>`);
-    
-    html += `
+            <input type="checkbox" id="${id}" name="checkbox${id}" onclick="completeTask(${id})" value="false" class="mr-2 mb-2 w-5 h-5 checked:accent-[#BBE5ED]" />
+            <h3 class="flex-1 mb-3 text-xl font-bold text-[#784F41] uppercase">${title}</h3>
                 <div>
-                    <span>${dueDate}</span>
-                    <button onclick="removeTask(${id})" class="inline-block bg-amber-500 text-xs text-amber-900 border border-white px-3 py-1 rounded-md ml-2">Ta bort</button>
+                    <span class="text-gray-800">${dueDate}</span>
+                    <button onclick="removeTask(${id})" class="inline-block bg-[#B399A2] hover:bg-[#BBE5ED] text-xs text-[#784F41] px-3 py-1 rounded-md ml-2">Ta bort</button>
                 </div>
             </div>
-            <p class="ml-8 mt-2 text-xs italic">${description}</p>
-        </li>`;
+            <p class="ml-8 mt-2 text-xs text-gray-800 italic">${description}</p>
+        </li>`);
+    /* Om uppgiften ÄR markerad som klar, skriv ut med ikryssad låda och strikethrough*/
+    completed && (html += `
+            <input type="checkbox" id="${id}" name="checkbox${id}" onclick="completeTask(${id})" checked value="true" class="mr-2 mb-2 w-5 h-5 checked:accent-[#BBE5ED]" />
+            <h3 class="flex-1 mb-3 text-xl font-bold text-[#986C6A] uppercase line-through decoration-4">${title}</h3>
+                <div>
+                    <span class="text-gray-600 line-through decoration-2">${dueDate}</span>
+                    <button onclick="removeTask(${id})" class="inline-block bg-[#B399A2] hover:bg-[#BBE5ED] text-xs text-[#784F41] px-3 py-1 rounded-md ml-2">Ta bort</button>
+                </div>
+            </div>
+            <p class="ml-8 mt-2 text-xs text-gray-600 italic line-through decoration-2">${description}</p>
+        </li>`);
 
     return html;
 }

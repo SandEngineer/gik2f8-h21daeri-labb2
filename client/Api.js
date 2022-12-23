@@ -27,15 +27,10 @@ class Api {
 
     /* PATCH för krysslåda*/
     update(id) {
-        const JSONData = JSON.stringify(id);
         console.log(`Updating task with id ${id}`);
         
         const request = new Request(`${this.url}/${id}`, {
             method: 'PATCH', 
-            body: JSONData, 
-            headers: {
-                'content-type': 'application/json'
-            }
         });
         
         return fetch(request)

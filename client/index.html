@@ -9,47 +9,47 @@
         <title>To-do App</title>
     </head>
     <body>
-        <main id="root" class="pt-24 bg-gradient-to-br from-purple-500 to-yellow-400 min-h-screen">
-            <h1 class="text-center mb-10 text-7xl text-purple-900">To-do lista</h1>
-            <section class="flex gap-10 w-full xl:w-4/5 mx-2 xl:mx-auto bg-white bg-opacity-75 p-5 rounded-lg">
+        <main id="root" class="pt-24 bg-gradient-to-b from-[#BFBCCB] to-[#986C6A] min-h-screen">
+            <h1 class="text-center mb-10 text-7xl text-[#784F41]">To-do lista</h1>
+            <section class="flex gap-10 w-full xl:w-4/5 mx-2 xl:mx-auto bg-[#BBE5ED] bg-opacity-30 p-5 rounded-lg">
                 <section class="flex-1">
-                    <h2 class="mb-6 text-3xl text-orange-900">Lägg till en uppgift</h2>
+                    <h2 class="mb-6 text-3xl text-[#784F41]">Lägg till en uppgift</h2>
                     <form id="todoForm" name="todoForm">
                         <section class="mb-2">
-                            <label class="block pr-5 mb-2 text-xl" for="title">Uppgift</label>
+                            <label class="block pr-5 mb-2 text-xl text-[#784F41]" for="title">Uppgift</label>
                             <p class="message text-sm text-red-700 mb-2 hidden">Error</p>
                             <input 
                                 type="text" 
                                 name="title" 
                                 id="title" 
-                                class="w-full rounded-md border-yellow-500 border-2 focus-within:outline-none focus:border-yellow-600 px-4 py-2" />
+                                class="w-full rounded-md border-[#B399A2] border-2 focus-within:outline-none focus:border-[#BBE5ED] px-4 py-2" />
                         </section>
                         <section class="mb-2">
-                            <label class="block pr-5 mb-2 text-xl" for="description">Beskrivning</label>
+                            <label class="block pr-5 mb-2 text-xl text-[#784F41]" for="description">Beskrivning</label>
                             <p class="message text-sm text-red-700 mb-2 hidden">Error</p>
                             <textarea 
                                 maxlength="500"
                                 rows="5"
                                 id="description" 
                                 name="description" 
-                                class="resize-none w-full rounded-md border-yellow-500 border-2 focus-within:outline-none focus:border-yellow-600 px-4 py-2"></textarea>
+                                class="resize-none w-full rounded-md border-[#B399A2] border-2 focus-within:outline-none focus:border-[#BBE5ED] px-4 py-2"></textarea>
                         </section>
                         <section class="mb-2">
-                            <label class="block pr-5 mb-2 text-xl" for="dueDate">Klart senast</label>
+                            <label class="block pr-5 mb-2 text-xl text-[#784F41]" for="dueDate">Klart senast</label>
                             <p class="message text-sm text-red-700 mb-2 hidden">Error</p>
                             <input 
                                 type="date" 
                                 name="dueDate" 
                                 id="dueDate" 
-                                class="w-full rounded-md border-yellow-500 border-2 focus-within:outline-none focus:border-yellow-600 px-4 py-2" />
+                                class="w-full rounded-md text-[#784F41] border-[#B399A2] border-2 focus-within:outline-none focus:border-[#BBE5ED] px-4 py-2" />
                         </section>
                         <button name="submitTodoForm" 
-                                class="rounded-md bg-yellow-500 hover:bg-yellow-400 px-4 py-1" 
+                                class="rounded-md bg-[#B399A2] hover:bg-[#BBE5ED] text-[#784F41] px-4 py-1" 
                                 type="submit">Spara</button>
                     </form>
                 </section>
                 <section class="flex-1 px-5">
-                    <h2 class="mb-6 text-3xl text-orange-900">Att göra</h2>
+                    <h2 class="mb-6 text-3xl text-[#784F41]">Att göra</h2>
                     <ul id="todoList"></ul>
                 </section>
             </section>

@@ -63,10 +63,12 @@ app.patch('/tasks/:id', async (req, res) => {
         const listBuffer = await fs.readFile("./tasks.json");
         const currentTasks = JSON.parse(listBuffer);
         
+        let completedTask = '';
+        
         /* Om lista finns */
         if (currentTasks.length > 0) {
             /* Iterera igenom och hitta rätt id, sätt completed till motsatt värde */
-            currentTasks.forEach(task => {
+            completedTask = currentTasks.forEach((task) => {
                 if (task.id == id && task.completed == false) {
                     task.completed = true;
                 } 
@@ -76,8 +78,9 @@ app.patch('/tasks/:id', async (req, res) => {
             })
             /* Skriv till fil */
             await fs.writeFile('./tasks.json',
-                JSON.stringify(currentTasks)
+                JSON.stringify(completedTask)
             );
+            
             res.send({ message: `Uppgift med id ${id} uppdaterades` });
         }
         else {
@@ -95,9 +98,12 @@ app.delete('/tasks/:id', async (req, res) => {
         const id = req.params.id;
         const listBuffer = await fs.readFile('./tasks.json');
         const currentTasks = JSON.parse(listBuffer);
-        /* Skriv till fil alla id som inte matchar input id, dvs delete in reverse */
+        /* Skriv till fil alla id som inte matchar input id, dvs "delete by omission" */
         if (currentTasks.length > 0) {
-            await fs.writeFile('./tasks.json', JSON.stringify(currentTasks.filter((task) => task.id != id)));
+            await fs.writeFile('./tasks.json', 
+                JSON.stringify(currentTasks.filter((task) => task.id != id))
+            );
+
             res.send({ message: `Uppgift med id ${id} togs bort` });
         } 
         else {

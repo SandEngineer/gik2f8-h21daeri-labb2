@@ -3,7 +3,6 @@ class Api {
 
     constructor(url) {
         this.url = url;
-   
     }
 
     /* POST */
@@ -28,9 +27,9 @@ class Api {
     /* PATCH för krysslåda*/
     update(id) {
         console.log(`Updating task with id ${id}`);
-        
+
         const request = new Request(`${this.url}/${id}`, {
-            method: 'PATCH', 
+            method: 'PATCH'
         });
         
         return fetch(request)
@@ -49,12 +48,12 @@ class Api {
 
     /* DELETE */
     remove(id) {
-        console.log(`Removing task with id ${id}`)
+        console.log(`Removing task with id ${id}`);
 
         return fetch(`${this.url}/${id}`, {
             method: 'delete'
         })
-        .then((result) => result)
-        .catch((err) => console.log(err)); 
+            .then((result) => result)
+            .catch((err) => console.log(err)); 
     }
 }

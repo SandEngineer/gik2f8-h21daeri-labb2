@@ -31,8 +31,7 @@ app.post('/tasks', async (req, res) => {
     try {
         const task = req.body;
 
-        const listBuffer = await fs.readFile('./tasks.json');
-        const currentTasks = JSON.parse(listBuffer);
+        const currentTasks = JSON.parse(await fs.readFile('./tasks.json'));
         let maxTaskId = 1;
 
         if (currentTasks && currentTasks.length > 0) {
@@ -63,12 +62,10 @@ app.patch('/tasks/:id', async (req, res) => {
         const listBuffer = await fs.readFile("./tasks.json");
         const currentTasks = JSON.parse(listBuffer);
         
-        let completedTask = '';
-        
         /* Om lista finns */
         if (currentTasks.length > 0) {
             /* Iterera igenom och hitta rätt id, sätt completed till motsatt värde */
-            completedTask = currentTasks.forEach((task) => {
+            currentTasks.forEach(task => {
                 if (task.id == id && task.completed == false) {
                     task.completed = true;
                 } 
@@ -78,9 +75,9 @@ app.patch('/tasks/:id', async (req, res) => {
             })
             /* Skriv till fil */
             await fs.writeFile('./tasks.json',
-                JSON.stringify(completedTask)
+                JSON.stringify(currentTasks)
             );
-            
+
             res.send({ message: `Uppgift med id ${id} uppdaterades` });
         }
         else {
@@ -94,11 +91,12 @@ app.patch('/tasks/:id', async (req, res) => {
 
 /* DELETE */
 app.delete('/tasks/:id', async (req, res) => {
+    const id = req.params.id;
+
     try {
-        const id = req.params.id;
         const listBuffer = await fs.readFile('./tasks.json');
         const currentTasks = JSON.parse(listBuffer);
-        /* Skriv till fil alla id som inte matchar input id, dvs "delete by omission" */
+        /* Skriv till fil alla id som inte matchar input id; "delete by omission" */
         if (currentTasks.length > 0) {
             await fs.writeFile('./tasks.json', 
                 JSON.stringify(currentTasks.filter((task) => task.id != id))
